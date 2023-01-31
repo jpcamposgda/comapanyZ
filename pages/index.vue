@@ -1,31 +1,37 @@
 <template>
 
 <div class="containerAll">
+  <Modal v-if="showModal" @open="showModalAdress = true" @click="closeModals"   @close="showModal = false"/>
+  <ModalAdress  v-if="showModalAdress" @open="showModalCard = true"  @close="showModalAdress = false" @click="closeModals"/>
+  <ModalCard v-if="showModalCard" @close="showModalCard = false" @click="closeModals" @total="totalPlan" />
   
+   
+   
+     
 
 <div class="containerDiv">
-  <button class="containerPlano" v-for="item in Mydb.data.activePlans" :key="item.id" @click="handleFind(item)">
+  <button class="containerPlano p-1" v-for="item in Mydb.data.activePlans" :key="item.id" @click="handleFind(item)" >
     {{ item.name }}
   </button>
 </div>
 
-<div class="d-flex ">
-<div v-if="GetItem" class="caixaPlano ">
-  <span class="planTitle" >O {{ GetItem }} irá incluir</span>
+<div class="d-flex ml-2   ">
+<div v-if="GetItem" class="caixaPlano">
+  <span class="planTitle ml-2" >O {{ GetItem }} irá incluir</span>
   <div style=" border-bottom: 1px solid #424242;"  class="d-flex justify-content-between mt-2 " v-for="(cont, index) in conteudo[0]" :key="index"  >
     
-    <span>{{cont.service}}</span>
+    <span class="ml-2">{{cont.service}}</span>
 
-    <span> {{ cont.baseQuantity }}</span>
+    <span class="mr-2"> {{ cont.baseQuantity }}</span>
   </div>
   <div class="d-flex justify-content-between"> 
-    <span> Aumentar quantidade de dominios</span>
+    <span class="ml-2"> Aumentar quantidade de dominios</span>
     <input  type="range" min="1" max="70" step="1" v-model="addOnPriceAmt">
   </div>
 </div>
 
 
-<div v-if="GetItem" class="caixaPlano ml-4">
+<div v-if="GetItem" class="caixaPlano ml-4 p-1">
 <span class="planTitle" >Sua Escolha</span>
 <div style=" border-top: 1px solid #424242;" class=" d-flex justify-content-between mt-2">
   <span > {{ GetItem }} </span>
@@ -41,13 +47,18 @@
   
   <span>R$ {{ totalPlan }} </span>
 </div>
+<div class="mt-2">
+  <button  class="buttonAssinar"  @click="showModal = true">Assinar Plano</button>
+  
 </div>
 </div>
+</div>
 
 
 
 
 </div>
+
 
 
 </template>
@@ -55,95 +66,59 @@
 <script>
 
 
+import Modal from "~/components/modal.vue"
+import ModalAdress from "~/components/modalAdress.vue";
+import ModalCard from "~/components/modalCard.vue";
 import db from "../db.json"
 import resDb from "../responseDb.json"
+
 export default {
-  name: 'IndexPage',
-
-data(){
-
-  return{
-
-    Mydb: db,
-    MyResponse: resDb,
-    GetItem: "",
-    service: "",
-    conteudo:[],
-    planBaseAmt: 0,
-    addOnPriceAmt: 0
-    
-  }
-},
-
-computed: {
-      total: function () {
-      return this.addOnPriceAmt * 5
+    name: "IndexPage",
+    data() {
+        return {
+            Mydb: db,
+            MyResponse: resDb,
+            GetItem: "",
+            service: "",
+            conteudo: [],
+            planBaseAmt: 0,
+            addOnPriceAmt: 0,
+            showModal: false,
+            showModalAdress: false,
+            showModalCard: false,
+        };
     },
+    computed: {
+        total: function () {
+            return this.addOnPriceAmt * 5;
+        },
+        totalPlan: function () {
+            const addPrice = Number(this.planBaseAmt);
+            const all = Number(this.total);
+            return all + addPrice;
+            
+        },
+    },
+    methods: {
+        handleFind(item) {
+            this.conteudo.length = 0;
+            this.addOnPriceAmt = 0;
+            const MyRes = this.MyResponse.data.planInfo.find(i => i.id == item.id);
+            if (MyRes) {
+                this.GetItem = item.name;
+                this.planBaseAmt = MyRes.planBaseAmt;
+                this.conteudo.push(MyRes.contents);
+            }
+        },
 
-    totalPlan: function () {
+        closeModals(){
 
-     const addPrice =  Number(this.planBaseAmt)
-     
-     const all = Number(this.total)
-
-     return all + addPrice
-
-    //  const basePrice =  Number(this.planBaseAmt)
-      
-    //  const total = addPrice + basePrice
-    //  return total.toFixed(2)
-     
-     
-  },
-
-},
-
-methods:{
-
-  handleFind(item){
-
-    this.conteudo.length = 0;
-    
-    const MyRes =  this.MyResponse.data.planInfo.find(i => i.id == item.id)
-
-    if(MyRes){
-
-      this.GetItem = item.name
-
-      this.planBaseAmt = MyRes.planBaseAmt
-
-      
-      
-      this.conteudo.push(MyRes.contents)
-      
-
-      
-
-   
-      
-    }
-
-    
-  
-    
-    
-    
-
-
-    
-    
-
-  }
-
-
-  }
-
-
-
-
-
-
-
+          this.showModal = false;
+          this.showModalAdress = false;
+          this.showModalCard = false
+        }
+    },
+    components: { Modal, ModalAdress }
 }
 </script>
 
@@ -239,5 +214,13 @@ input[type=number] {
  -moz-appearance: textfield;
  appearance: textfield;
 
+}
+
+.buttonAssinar{
+  
+  width: 100%;
+  border: 0;
+  background: var(--bluePurple);
+  color: var(--white);
 }
 </style>
