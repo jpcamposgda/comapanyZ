@@ -9,26 +9,42 @@
   </button>
 </div>
 
-<div class="caixaPlano">
-<div style=" border-bottom: 1px solid #424242;">
+<div class="d-flex ">
+<div v-if="GetItem" class="caixaPlano ">
   <span class="planTitle" >O {{ GetItem }} irá incluir</span>
-  <div  class="d-flex justify-content-between mt-2" v-for="(cont, index) in conteudo[0]" :key="index"  >
+  <div style=" border-bottom: 1px solid #424242;"  class="d-flex justify-content-between mt-2 " v-for="(cont, index) in conteudo[0]" :key="index"  >
     
     <span>{{cont.service}}</span>
 
     <span> {{ cont.baseQuantity }}</span>
   </div>
-</div>
-<div class="d-flex justify-content-between">
-  <span>Dominios</span>
-  <span>3</span>
-</div>
-<div class="d-flex justify-content-between"> 
-  <span> Aumentar quantidade de dominios</span>
-  <input type="range">
+  <div class="d-flex justify-content-between"> 
+    <span> Aumentar quantidade de dominios</span>
+    <input  type="range" min="1" max="70" step="1" v-model="addOnPriceAmt">
+  </div>
 </div>
 
+
+<div v-if="GetItem" class="caixaPlano ml-4">
+<span class="planTitle" >Sua Escolha</span>
+<div style=" border-top: 1px solid #424242;" class=" d-flex justify-content-between mt-2">
+  <span > {{ GetItem }} </span>
+  <span> R$ {{ planBaseAmt }} </span>
 </div>
+<div v-if="addOnPriceAmt" style=" border-top: 1px solid #424242;" class=" d-flex justify-content-between mt-2">
+  <span class="">+<input class="inputRang" type="number" disabled  v-model="addOnPriceAmt"></span>
+  <span > R$ {{ total }} </span>
+</div>
+
+<div style=" border-top: 1px solid #424242;" class=" d-flex justify-content-between mt-2">
+  <span>TOTAL</span>
+  
+  <span>R$ {{ totalPlan }} </span>
+</div>
+</div>
+</div>
+
+
 
 
 </div>
@@ -52,9 +68,34 @@ data(){
     MyResponse: resDb,
     GetItem: "",
     service: "",
-    conteudo:[]
+    conteudo:[],
+    planBaseAmt: 0,
+    addOnPriceAmt: 0
     
   }
+},
+
+computed: {
+      total: function () {
+      return this.addOnPriceAmt * 5
+    },
+
+    totalPlan: function () {
+
+     const addPrice =  Number(this.planBaseAmt)
+     
+     const all = Number(this.total)
+
+     return all + addPrice
+
+    //  const basePrice =  Number(this.planBaseAmt)
+      
+    //  const total = addPrice + basePrice
+    //  return total.toFixed(2)
+     
+     
+  },
+
 },
 
 methods:{
@@ -68,6 +109,10 @@ methods:{
     if(MyRes){
 
       this.GetItem = item.name
+
+      this.planBaseAmt = MyRes.planBaseAmt
+
+      
       
       this.conteudo.push(MyRes.contents)
       
@@ -179,4 +224,20 @@ margin-left: 100px;
 
 }
 
+
+.inputRang{
+  background: #101026;
+  border: 0;
+  color: var(--white);
+}
+
+input[type=number]::-webkit-inner-spin-button { 
+  -webkit-appearance: none;
+  
+}
+input[type=number] { 
+ -moz-appearance: textfield;
+ appearance: textfield;
+
+}
 </style>

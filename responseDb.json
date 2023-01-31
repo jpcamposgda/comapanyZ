@@ -42,6 +42,76 @@
             "maxAddOnQuantity": 1
           }
         ]
+      },
+      {
+        "id": 3,
+        "name": "Plano 6D",
+        "planBaseAmt": 500,
+        "contents": [
+          {
+            "baseQuantity": 1,
+            "service": "DOMAIN",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          },
+          {
+            "baseQuantity": 2,
+            "service": "MEMBERZ",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          }
+        ]
+      },
+      {
+        "id": 4,
+        "name": "Plano 7D",
+        "planBaseAmt": 600,
+        "contents": [
+          {
+            "baseQuantity": 5,
+            "service": "DOMAIN",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          },
+          {
+            "baseQuantity": 2,
+            "service": "USERS",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          }
+        ]
+      },
+      {
+        "id": 5,
+        "name": "SPACE",
+        "planBaseAmt": 1000,
+        "contents": [
+          {
+            "baseQuantity": 2,
+            "service": "DOMAIN",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          },
+          {
+            "baseQuantity": 2,
+            "service": "MEMBERZ",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          },
+          {
+            "baseQuantity": 5,
+            "service": "USERS",
+            "addOnId": 1,
+            "packageQuantity": 1,
+            "maxAddOnQuantity": 1
+          }
+        ]
       }
     ]
     }
