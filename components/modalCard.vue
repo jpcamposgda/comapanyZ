@@ -40,7 +40,7 @@
                 <div class="">
                 <slot name="footer">
                   <button class="buttonNext" @click.prevent="$emit('open')">
-                    Assinar Plano 
+                    Assinar Plano ${{ total }}
                   </button> 
                  
                 </slot>
@@ -62,7 +62,10 @@
     import { BIconArrowLeft , BIcon , BIconX } from 'bootstrap-vue'
     export default {
     
-      
+      props:{
+
+        total: Number,
+      },
     
         components: {
         BIcon,

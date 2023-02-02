@@ -3,7 +3,7 @@
 <div class="containerAll">
   <Modal v-if="showModal" @open="showModalAdress = true" @click="closeModals"   @close="showModal = false"/>
   <ModalAdress  v-if="showModalAdress" @open="showModalCard = true"  @close="showModalAdress = false" @click="closeModals"/>
-  <ModalCard v-if="showModalCard" @close="showModalCard = false" @click="closeModals" @total="totalPlan" />
+  <ModalCard v-if="showModalCard" @close="showModalCard = false" @click="closeModals" :total="totalPlan" />
   
    
    

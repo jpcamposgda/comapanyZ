@@ -22,7 +22,7 @@
                 <form>
                     <div class=" justify-content-start mb-2  ">
                     <label  class="d-block"   >CEP *</label>
-                    <input type="text" placeholder="Digite seu cep" maxlength="8"  v-model="address.CEP">
+                    <input type="text" placeholder="Digite seu cep" maxlength="8"  v-model="address.CEP" @change="getAdress">
                 </div>
                 <div class="mb-2">
                     <label class="d-block" >Rua *</label>
@@ -39,9 +39,7 @@
     
                 <div class="">
                 <slot name="footer">
-                    <button class="buttonNext mb-2" @click.prevent="getAdress">
-                        Consulta cep
-                  </button>
+                    
                     <button class="buttonNext"  @click.prevent="$emit('open')">
                     Próximo
                   </button>
@@ -120,9 +118,9 @@
                 
             },
 
-           async getAdress(){
+           async getAdress(e){
 
-               const url = `${this.baseUrl}${this.address.CEP}/json/`
+               const url = `${this.baseUrl}${e.target.value}/json/`
 
              await  axios.get(url).then(resp =>{
 
